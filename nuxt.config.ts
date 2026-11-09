@@ -1,7 +1,6 @@
 import { nodePolyfills } from "vite-plugin-node-polyfills"
 
 export default defineNuxtConfig({
-	srcDir: ".",
 	components: [{ path: "~/components", extensions: ["vue"] }],
 	compatibilityDate: "2026-11-09",
 	experimental: {
@@ -10,49 +9,27 @@ export default defineNuxtConfig({
 	modules: ["@nuxtjs/sitemap", "@pinia/nuxt", "nuxt-og-image"],
 
 	site: {
-		url: "https://www.explorer.nubit.org/",
+		url: "https://www.explorer.nubit.org",
+		name: "Nubit Explorer",
+		defaultLocale: "en",
+		trailingSlash: false,
 	},
 
 	sitemap: {
 		xsl: false,
+		exclude: ["/bookmarks", "/namespaces/treemap"],
 	},
 
 	routeRules: {
-		"/": {
-			sitemap: {
-				changefreq: "daily",
-				priority: 1,
-			},
-		},
-		"/blocks": {
-			sitemap: {
-				changefreq: "daily",
-				priority: 0.9,
-			},
-		},
-		"/namespaces": {
-			sitemap: {
-				changefreq: "daily",
-				priority: 0.8,
-			},
-		},
-		"/txs": {
-			sitemap: {
-				changefreq: "daily",
-				priority: 0.7,
-			},
-		},
-		"/addresses": {
-			sitemap: {
-				changefreq: "daily",
-				priority: 0.6,
-			},
-		}
+		"/bookmarks": { headers: { "X-Robots-Tag": "noindex, follow" } },
+		"/namespaces/treemap": { headers: { "X-Robots-Tag": "noindex, follow" } },
 	},
 
 	runtimeConfig: {
 		public: {
 			AMP: process.env.AMP,
+			apiBase: "https://alphatestnet-api.nubit.org/v1",
+			wsUrl: "wss://alphatestnet-api.nubit.org/v1/ws",
 		},
 	},
 
@@ -62,7 +39,7 @@ export default defineNuxtConfig({
 				lang: "en",
 			},
 			meta: [
-				{ name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1" },
+				{ name: "viewport", content: "width=device-width, initial-scale=1" },
 				{
 					name: "lang",
 					content: "en",
@@ -71,8 +48,9 @@ export default defineNuxtConfig({
 			link: [
 				{
 					id: "favicon",
+					href: "/favicon.ico",
 					rel: "icon",
-					type: "image/png",
+					type: "image/x-icon",
 				},
 				{
 					rel: "preload",
@@ -80,23 +58,14 @@ export default defineNuxtConfig({
 					href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
 					onload: "this.onload=null;this.rel='stylesheet'",
 				},
+
 				{
 					rel: "preload",
 					as: "style",
 					href: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap",
 					onload: "this.onload=null;this.rel='stylesheet'",
 				},
-				{
-					rel: "preload",
-					as: "style",
-					href: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap",
-					onload: "this.onload=null;this.rel='stylesheet'",
-				},
-				{
-					rel: "preload",
-					as: "script",
-					href: "https://www.googletagmanager.com/gtag/js?id=G-M6NP8RB5YP",
-				}
+
 			],
 		},
 	},
