@@ -87,4 +87,6 @@ node .output/server/index.mjs
 
 依赖稳定版于 2026-11-09 核查。已迁移到 `@nuxtjs/sitemap` 9.1.0、Nuxt OG Image 7.0.7 和 VueUse 15.0.0；Satori 使用 OG 模块声明兼容的 `^0.47.1`。浏览器 Node polyfill 仅用于客户端，构建脚本白名单见 `pnpm-workspace.yaml`。
 
+本轮已通过冻结安装、5 项单测、生产构建和 HTTP SEO 冒烟测试；另验证了 Chromium hydration、编辑器按需加载及反复开关清理。具体范围见 [验证记录](docs/architecture-seo.md#2026-11-09-本地验证记录)。
+
 已有 CryptoJS 停止维护、DevTools 传递 peer 范围、bundle 体积及 `vm-browserify` eval 提示，需在后续专项中处理。自动检查不代表真实链 API、WebSocket、钱包签名广播或远端部署通过；发布前仍应验收这些流程，并在 Search Console 验证收录和线上 Core Web Vitals。

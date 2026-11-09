@@ -57,3 +57,9 @@ pnpm test:seo
 单测覆盖 canonical、分页/筛选索引策略、JSON-LD 转义、空资源和上游错误分类。HTTP 测试使用模拟链 API 与生产构建，覆盖 SSR 可见数据、meta、schema、抓取链接、静态/动态 sitemap、robots、五类详情的 404/503 和预发布 noindex。
 
 发布后还需验证浏览器 hydration、交互与钱包流程、真实 OG 图片、Search Console URL Inspection、正式 robots/sitemap 和移动端 Core Web Vitals。本地模拟 API 不证明外部链服务稳定，测试通过不代表搜索排名保证。
+
+### 2026-11-09 本地验证记录
+
+Node 24.22.2 / pnpm 12.18.0 下，冻结安装、5 项单测、生产构建与 `pnpm test:seo` 通过。有效区块详情生成的签名 OG URL 返回有效 PNG；未知路由、空 namespace、非法或越界分页，以及五类详情的 404/503 均按预期响应。
+
+另用临时 Playwright 工具和全新 Chromium 上下文验证书签页 hydration：以客户端 manifest 对照网络请求确认 CodeMirror viewer 在打开弹窗前未请求，打开后才加载；连续三次打开/关闭均只创建一个编辑器，关闭后销毁，无页面运行时异常。该检查屏蔽第三方网络并使用模拟 API，不代表钱包交易端到端验收。
