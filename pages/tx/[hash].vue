@@ -22,11 +22,9 @@ if (!rawTx.value) {
 	cacheStore.current.transaction = tx.value
 }
 
-defineOgImage({
+defineOgImage("TxImage", {
 	title: "Tx",
 	tx: tx.value,
-	component: "TxImage",
-	cacheKey: `${tx.value?.hash}`,
 })
 
 useHead({

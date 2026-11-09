@@ -32,11 +32,9 @@ if (!rawBlock.value) {
 	cacheStore.current.block = block.value
 }
 
-defineOgImage({
+defineOgImage("BlockImage", {
 	title: "Block",
 	block: block.value,
-	component: "BlockImage",
-	cacheKey: `${block.value?.height}`,
 })
 
 useHead({

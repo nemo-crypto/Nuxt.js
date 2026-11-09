@@ -22,13 +22,9 @@ if (!rawAddress.value) {
 	cacheStore.current.address = address.value
 }
 
-defineOgImage({
+defineOgImage("AddressImage", {
 	title: "Address",
 	address: address.value,
-	component: "AddressImage",
-	cacheKey: `${address.value?.hash.slice(-4)}-${address.value?.balance.spendable}-${address.value?.first_height}-${
-		address.value?.last_height
-	}`,
 })
 
 useHead({

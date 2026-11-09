@@ -1,8 +1,13 @@
 import { nodePolyfills } from "vite-plugin-node-polyfills"
-import path from "path"
 
 export default defineNuxtConfig({
-	modules: ["nuxt-simple-sitemap", "@pinia/nuxt", "nuxt-og-image"],
+	srcDir: ".",
+	components: [{ path: "~/components", extensions: ["vue"] }],
+	compatibilityDate: "2026-11-09",
+	experimental: {
+		defaults: { useAsyncData: { deep: true } },
+	},
+	modules: ["@nuxtjs/sitemap", "@pinia/nuxt", "nuxt-og-image"],
 
 	site: {
 		url: "https://www.explorer.nubit.org/",
@@ -98,27 +103,22 @@ export default defineNuxtConfig({
 
 	css: ["@/assets/styles/base.scss", "@/assets/styles/flex.scss", "@/assets/styles/text.scss"],
 
-	pinia: {
-		autoImports: ["defineStore"],
-	},
-
-	ogImage: {
-		fonts: ["Inter:400", "Inter:600", "IBM+Plex+Mono:400"],
-	},
-
 	devtools: {
 		enabled: true,
+	},
+
+	hooks: {
+		"vite:extendConfig"(config, { isClient }) {
+			if (isClient) {
+				config.plugins ||= []
+				config.plugins.push(nodePolyfills())
+			}
+		},
 	},
 
 	vite: {
 		define: {
 			global: "globalThis",
 		},
-		resolve: {
-			alias: {
-				"unenv/runtime/node/buffer/index/": path.resolve(__dirname, "./node_modules/buffer/index"),
-			},
-		},
-		plugins: [nodePolyfills()],
 	},
 })

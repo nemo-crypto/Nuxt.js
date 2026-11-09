@@ -3,8 +3,10 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm install -g pnpm@8.7.4
-        - pnpm i
+        - nvm install 24
+        - nvm use 24
+        - npm install -g pnpm@12.18.0
+        - pnpm install --frozen-lockfile
     build:
       commands:
         - pnpm build

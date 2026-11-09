@@ -27,11 +27,9 @@ if (!rawNamespace.value) {
 	cacheStore.current.namespace = namespace.value
 }
 
-defineOgImage({
+defineOgImage("NamespaceImage", {
 	title: "Namespace",
 	namespace: namespace.value,
-	component: "NamespaceImage",
-	cacheKey: `${namespace.value?.hash}`,
 })
 
 useHead({
