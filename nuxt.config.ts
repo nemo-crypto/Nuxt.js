@@ -4,7 +4,10 @@ export default defineNuxtConfig({
 	components: [{ path: "~/components", extensions: ["vue"] }],
 	compatibilityDate: "2026-11-09",
 	experimental: {
-		defaults: { useAsyncData: { deep: true } },
+		defaults: {
+			useAsyncData: { deep: true },
+			useFetch: { timeout: 10000, retry: 0 },
+		},
 	},
 	modules: ["@nuxtjs/sitemap", "@pinia/nuxt", "nuxt-og-image"],
 
@@ -17,6 +20,7 @@ export default defineNuxtConfig({
 
 	sitemap: {
 		xsl: false,
+		sources: ["/api/__sitemap__/recent"],
 		exclude: ["/bookmarks", "/namespaces/treemap"],
 	},
 
@@ -58,14 +62,12 @@ export default defineNuxtConfig({
 					href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
 					onload: "this.onload=null;this.rel='stylesheet'",
 				},
-
 				{
 					rel: "preload",
 					as: "style",
 					href: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap",
 					onload: "this.onload=null;this.rel='stylesheet'",
 				},
-
 			],
 		},
 	},

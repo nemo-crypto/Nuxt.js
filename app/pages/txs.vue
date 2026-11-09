@@ -206,7 +206,8 @@ const getTransactions = async () => {
 	isRefetching.value = false
 }
 
-getTransactions()
+await getTransactions()
+if (page.value > 1 && transactions.value?.length === 0) throw createError({ statusCode: 404, statusMessage: "Page not found", fatal: true })
 
 onBeforeMount(() => {
 	if (localStorage.getItem("page:transactions:config:columns")) {
@@ -286,7 +287,7 @@ const handleNext = () => {
 					<Button @click="page = 1" type="secondary" size="mini" :disabled="page === 1">
 						<Icon name="arrow-left-stop" size="12" color="primary" />
 					</Button>
-					<Button type="secondary" @click="handlePrev" size="mini" :disabled="page === 1">
+					<Button type="secondary" @click.prevent="handlePrev" size="mini" :disabled="page === 1" :link="!(page === 1) ? router.resolve({ query: { ...route.query, page: page - 1 } }).href : undefined" aria-label="Previous page">
 						<Icon name="arrow-left" size="12" color="primary" />
 					</Button>
 
@@ -294,7 +295,7 @@ const handleNext = () => {
 						<Text class="openSans_font" size="12" weight="600" color="primary">Page {{ comma(page) }} </Text>
 					</Button>
 
-					<Button @click="handleNext" type="secondary" size="mini" :disabled="!transactions.length">
+					<Button @click.prevent="handleNext" type="secondary" size="mini" :disabled="!transactions.length" :link="!(!transactions.length) ? router.resolve({ query: { ...route.query, page: page + 1 } }).href : undefined" aria-label="Next page">
 						<Icon name="arrow-right" size="12" color="primary" />
 					</Button>
 				</Flex>

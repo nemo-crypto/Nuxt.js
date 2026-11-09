@@ -1,16 +1,4 @@
 <script setup>
-/** Vendor */
-import { EditorView } from "codemirror"
-import { EditorState } from "@codemirror/state"
-import { keymap, lineNumbers, highlightActiveLine, highlightActiveLineGutter, highlightSpecialChars, drawSelection } from "@codemirror/view"
-import { bracketMatching } from "@codemirror/language"
-import { defaultKeymap } from "@codemirror/commands"
-import { searchKeymap, highlightSelectionMatches } from "@codemirror/search"
-import { json } from "@codemirror/lang-json"
-
-/** Services */
-import { customViewerTheme } from "@/services/editor/theme.js"
-
 /** UI */
 import Modal from "@/components/ui/Modal.vue"
 import Button from "@/components/ui/Button.vue"
@@ -27,35 +15,34 @@ const props = defineProps({
 })
 
 const editorRef = ref(null)
+const isLoading = ref(false)
+const loadFailed = ref(false)
+const rawDocument = computed(() => JSON.stringify(cacheStore.current[cacheStore.current._target], null, 2) || "null")
 
 watch(
 	() => props.show,
-	() => {
-		nextTick(() => {
-			const state = EditorState.create({
-				doc: JSON.stringify(cacheStore.current[cacheStore.current._target], null, 2),
-				extensions: [
-					lineNumbers(),
-					highlightActiveLine(),
-					highlightActiveLineGutter(),
-					highlightSpecialChars(),
-					drawSelection(),
-					bracketMatching(),
-					highlightSelectionMatches(),
-					keymap.of([...defaultKeymap, ...searchKeymap]),
-					customViewerTheme,
-					EditorState.readOnly.of(true),
-					EditorView.lineWrapping,
-					json(),
-				],
-			})
-
-			const editorView = new EditorView({
-				state,
-				parent: editorRef.value,
-			})
+	async (show, _previous, onCleanup) => {
+		if (!show) return
+		let cancelled = false
+		let editor
+		onCleanup(() => {
+			cancelled = true
+			editor?.destroy()
 		})
+		isLoading.value = true
+		loadFailed.value = false
+		try {
+			const { createRawDataViewer } = await import("@/services/editor/viewer.js")
+			await nextTick()
+			if (cancelled || !editorRef.value) return
+			editor = createRawDataViewer(editorRef.value, rawDocument.value)
+		} catch {
+			if (!cancelled) loadFailed.value = true
+		} finally {
+			if (!cancelled) isLoading.value = false
+		}
 	},
+	{ flush: "post" },
 )
 
 const handleCopy = () => {
@@ -77,6 +64,8 @@ const handleCopy = () => {
 		<Flex direction="column" gap="8">
 			<Text size="14" weight="600" color="primary">Raw Data Overview</Text>
 
+			<Text v-if="isLoading" role="status" size="13" color="secondary">Loading data viewer…</Text>
+			<pre v-if="loadFailed" :class="$style.editor">{{ rawDocument }}</pre>
 			<div ref="editorRef" :class="$style.editor" />
 
 			<Button @click="handleCopy" type="secondary" size="small" wide>

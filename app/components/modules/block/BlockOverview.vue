@@ -317,7 +317,7 @@ const handleViewRawTransactions = () => {
 			<Flex align="center" gap="12">
 				<Flex align="center" gap="8">
 					<!-- <Icon name="block" size="14" color="primary" /> -->
-					<Text as="h1" size="20" weight="600" color="primary">Block </Text>
+					<Text as="h1" size="20" weight="600" color="primary">Block {{ comma(block.height) }}</Text>
 				</Flex>
 
 				<Flex align="center" gap="8">
@@ -365,7 +365,7 @@ const handleViewRawTransactions = () => {
 						<Flex align="center" gap="6">
 							<Icon name="block" size="14" color="secondary" />
 
-							<Flex tag="h1" align="center" gap="4">
+							<Flex align="center" gap="4">
 								<Text size="12" weight="600" color="secondary"> Height </Text>
 								<Text class="rubik_font" size="12" weight="600" color="yellowNew">{{ comma(block.height) }}</Text>
 							</Flex>

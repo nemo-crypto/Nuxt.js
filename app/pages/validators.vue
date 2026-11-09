@@ -116,6 +116,7 @@ const activeTab = ref(
 const dropdownItems = computed(() => tabs.value.filter((tab) => tab !== activeTab.value))
 
 await getValidatorsStats()
+if (page.value > pages.value) throw createError({ statusCode: 404, statusMessage: "Page not found", fatal: true })
 await getValidators()
 
 /** Refetch validators */
@@ -187,7 +188,7 @@ watch(
 						<Button @click="page = 1" type="secondary" size="mini" :disabled="page === 1">
 							<Icon name="arrow-left-stop" size="12" color="primary" />
 						</Button>
-						<Button type="secondary" @click="handlePrev" size="mini" :disabled="page === 1">
+						<Button type="secondary" @click.prevent="handlePrev" size="mini" :disabled="page === 1" :link="!(page === 1) ? router.resolve({ query: { ...route.query, page: page - 1 } }).href : undefined" aria-label="Previous page">
 							<Icon name="arrow-left" size="12" color="primary" />
 						</Button>
 
@@ -195,7 +196,7 @@ watch(
 							<Text class="openSans_font" size="12" weight="600" color="primary"> {{ page }} of {{ pages }} </Text>
 						</Button>
 
-						<Button @click="handleNext" type="secondary" size="mini" :disabled="page === pages">
+						<Button @click.prevent="handleNext" type="secondary" size="mini" :disabled="page === pages" :link="!(page === pages) ? router.resolve({ query: { ...route.query, page: page + 1 } }).href : undefined" aria-label="Next page">
 							<Icon name="arrow-right" size="12" color="primary" />
 						</Button>
 						<Button @click="page = pages" type="secondary" size="mini" :disabled="page === pages">

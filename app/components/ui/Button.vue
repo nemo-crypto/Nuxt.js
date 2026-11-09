@@ -56,6 +56,8 @@ const getStyles = () => {
 		:is="link ? NuxtLink : 'button'"
 		v-bind="{ to: link ? link : null }"
 		:target="target"
+		:disabled="!link && disabled"
+		:aria-disabled="disabled || undefined"
 		:class="[...getStyles(), loading && $style.loading]"
 	>
 		<slot />

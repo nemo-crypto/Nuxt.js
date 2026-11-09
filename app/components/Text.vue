@@ -78,5 +78,5 @@ const classes = computed(() => {
 </template>
 
 <style scoped>
-h1, h2 { margin: 0; font: inherit; }
+h1, h2 { margin: 0; }
 </style>

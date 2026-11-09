@@ -18,10 +18,7 @@ useSeoMeta({
 	title: () => `${error.value?.statusCode || 500} - Nubit Explorer`,
 	robots: "noindex, follow",
 })
-if (import.meta.server) {
-	const event = useRequestEvent()
-	if (event) event.node.res.setHeader("X-Robots-Tag", "noindex, follow")
-}
+
 
 onMounted(async () => {
 	const data = await fetchHead()
