@@ -4,6 +4,18 @@
 
 该目录提供前端、Nuxt服务目录与协议工具；链数据、索引API和WebSocket由外部服务提供，不包含完整链节点或索引后端。
 
+<!-- BEGIN project-discovery -->
+## 项目定位与实践入口
+
+Nuxt 3 + Vue 3 blockchain explorer frontend with Pinia, block/transaction/address pages and Keplr wallet integration. 区块链浏览器界面，需外部链数据 API。
+
+适合从以下入口阅读实现与接入条件：
+
+- [区块链浏览器页面](pages/)
+- [钱包适配](services/keplr.js)
+- [数据源配置](services/config.js)
+<!-- END project-discovery -->
+
 ## 页面与模块
 
 | 模块 | 入口 | 功能 |
