@@ -1,5 +1,5 @@
 import { defineNuxtModule } from "@nuxt/kit"
-import { version } from "../config/env"
+import { version } from "../app/config/env"
 
 export default defineNuxtModule({
 	meta: {
